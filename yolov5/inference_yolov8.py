@@ -31,7 +31,9 @@ def resize_image(img, img_size=640):
 def process_detection(results):
     processed_results = []
     for r in results:
-        total_width = r.orig_shape[1]  # 원본 이미지의 너비
+        total_width = r.orig_shape[1]
+        print("이미지 너비 : ",total_width)
+
         for i, box in enumerate(r.boxes.xyxy):
             x1, y1, x2, y2 = box.tolist()[:4]
             conf = r.boxes.conf[i].item()
@@ -104,19 +106,8 @@ def execute(client_socket):
     save_image_from_bytes(image_data_bytes, file_name)
     
     result = run_inference(file_name)
-    # print(result)
 
     client_socket.sendall(result.encode())
-        # Check if the result is not None
-    # if result is not None:
-    #     encoded_result = result.encode()  # Encode the result to bytes
-    #     # It's important to ensure the client knows the size of the message it's about to receive
-    #     # You might want to send the size of the encoded result first
-    #     result_size = len(encoded_result)
-    #     client_socket.sendall(result_size.to_bytes(4, 'big'))  # Send the size of the result
-    #     client_socket.sendall(encoded_result)  # Send the actual result
-    # else:
-    #     print("Error: No result to send.")  # Handle case where result is None
 
     end = time.time()
     print(f"{end - start:.5f} sec")
