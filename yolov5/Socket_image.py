@@ -11,8 +11,8 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 
 file_number = 1
-weights = '/home/dnflrha12/PathPal-ML/yolov5/models/best.pt'  # model path
-data = '/home/dnflrha12/PathPal-ML/yolov5/custom.yaml'  # dataset.yaml path
+weights = '/home/dnflrha12/PathPal-ML/yolov5/yolov5_epoch40_add_label.pt'
+data = '/home/dnflrha12/PathPal-ML/yolov5/custom.yaml' # dataset.yaml path
 device = ''  # cuda device, i.e. 0 or 0,1,2,3 or cpu
 imgsz = (640, 640)  # inference size (height, width)
 # Load model
@@ -20,7 +20,8 @@ device = select_device(device)
 model = DetectMultiBackend(weights, device=device, data=data)
 stride = model.stride
 names = model.names
-ALERT_LABELS = ['label1', 'label2']
+ALERT_LABELS = ['flatness_D', 'flatness_E', 'paved_state_broken', 'block_kind_bad', 'outcurb_rectengle_broken', 
+                'sidegap_out', 'steepramp', 'brailleblock_dot_broken', 'brailleblock_line_broken', 'planecrosswalk_broken', 'pole', 'bollard', 'barricade']
 
 def resize_image(img, img_size=640):
     h, w = img.shape[:2]
