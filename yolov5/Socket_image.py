@@ -42,11 +42,11 @@ def resize_image(img, img_size=640):
 
     return padded_img
 
-
 def run_inference(image_path, img_size=640):
     img0 = cv2.imread(image_path)
     img0 = cv2.cvtColor(img0, cv2.COLOR_BGR2RGB)
     resized_img = resize_image(img0, img_size)
+    print("리사이징된 이미지 크기:", resized_img.shape) 
 
     img = torch.from_numpy(resized_img).to(device)
     img = img.float() / 255.0
@@ -56,8 +56,9 @@ def run_inference(image_path, img_size=640):
     pred = model(img, augment=False, visualize=False)
     pred = non_max_suppression(pred, 0.25, 0.45, None, False, max_det=1000)
 
-    total_width = img0.shape[1] # 640 fix
-    print(total_width)
+    # total_width = img0.shape[1] # 640 fix
+    total_width = 640
+    # print("이미지 너비 : ",total_width)
     results = []
     for i, det in enumerate(pred):
         if len(det):
@@ -70,8 +71,8 @@ def run_inference(image_path, img_size=640):
                 result = {
                     "name": label,
                     "confidence": round(float(conf),4),
-                    "left_x": round(float(left_x) / total_width * 100, 2),
-                    "right_x": round(float(right_x) / total_width * 100, 2),
+                    "left_x": round(float(left_x) / total_width, 2),
+                    "right_x": round(float(right_x) / total_width, 2),
                     "alert": alert
                 }
                 results.append(result)
