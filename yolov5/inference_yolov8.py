@@ -6,7 +6,7 @@ import time
 from ultralytics import YOLO 
 
 file_number = 1
-weights = '/home/dnflrha12/PathPal-ML/yolov5/yolov8n_epoch60.pt'
+weights = '/home/dnflrha12/PathPal-ML/yolov5/yolov8s_epoch80_stairs_and_greenlight.pt'
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 ALERT_LABELS = [
